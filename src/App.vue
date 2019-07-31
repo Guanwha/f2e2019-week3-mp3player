@@ -1,17 +1,18 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld/>
+    <MP3Player/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import MP3Player from './pages/MP3Player';
+import './styles/_reset.css';
+import './styles/_normalize.scss';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
+    MP3Player,
   },
 };
 </script>
@@ -23,6 +24,11 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

@@ -1,0 +1,16 @@
+// box-sizing
+* {
+        box-sizing: border-box;
+   -moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+}
+
+// fill the whole view
+html {
+  height: 100%;
+}
+body {
+  height: 100%;
+  background: rgb(209, 161, 72) center center fixed no-repeat; 
+  background-size: cover;
+}
