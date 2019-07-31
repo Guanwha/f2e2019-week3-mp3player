@@ -1,5 +1,5 @@
 
-export const getters = {
+const getters = {
   currentPage: state => state.curPage,
 };
 
