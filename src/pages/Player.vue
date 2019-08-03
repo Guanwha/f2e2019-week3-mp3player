@@ -4,8 +4,8 @@
     <div class="frame-control">
       <!-- titles -->
       <div class="area-title">
-        <div class="title-main">{{curMusic.title}}</div>
-        <div class="title-sub">{{curMusic.singer}}</div>
+        <div class="title-main">{{curSong.title}}</div>
+        <div class="title-sub">{{curSong.singer}}</div>
       </div>
       <!-- time bar -->
       <div class="area-timebar">
@@ -71,11 +71,11 @@ export default {
     this.barWidth = elBar.clientWidth;
   },
   watch: {
-    curMusic: {
-      handler(newMusic, oldMusic) {
-        if (newMusic.vid !== oldMusic.vid) {
-          // switch music
-          this.reload(newMusic, false);
+    curSong: {
+      handler(newSong, oldSong) {
+        if (newSong.vid !== oldSong.vid) {
+          // switch song
+          this.reload(newSong, false);
         }
       },
       deep: true,
@@ -104,7 +104,7 @@ export default {
       this.curPlaySec = parseInt(this.curTotalSec * percent, 10);
     },
     // ------ control panel ------
-    reload(music, isSame) {
+    reload(song, isSame) {
       this.stop();
       this.audioTag.pause();
       if (isSame) {
@@ -113,13 +113,13 @@ export default {
         this.play();
       }
       else {
-        this.load(music.vid);
+        this.load(song.vid);
       }
     },
     playpause() {
       // check if it needs to load
       if (!this.audioTag.src) {
-        this.load(this.curMusic.vid);
+        this.load(this.curSong.vid);
         return;
       }
 
@@ -183,7 +183,7 @@ export default {
                 this.audioTag.src = audioStreams['128kbps'];
                 console.log(`load ${this.audioTag.src}`);
                 this.audioTag.onerror = () => {
-                  alert('We cannot fetch this music because of permission');
+                  alert('We cannot fetch this song because of permission');
                   this.stop();
                   this.fetchFailed = true;
                   this.audioTag.ontimeupdate = null;
@@ -231,12 +231,12 @@ export default {
         this.playEndProcess();
       }
     },
-    // decide what to do when the music is finished
+    // decide what to do when the song is finished
     playEndProcess() {
       this.stop();
       if (this.isRepeatOne) {
-        // repeat the current music
-        this.reload(this.curMusic, true);
+        // repeat the current song
+        this.reload(this.curSong, true);
       }
       else if (this.isRandom) {
         this.randomAnySong();
@@ -274,8 +274,8 @@ export default {
       const sec = parseInt(this.curTotalSec % 60, 10);
       return `${min}:${sec}`;
     },
-    // ...mapGetters(['curBgUrl', 'isRandom', 'isPlaying', 'isRepeatOne', 'curMusic']),
-    ...mapGetters(['curBgUrl', 'isPlaying', 'curMusic']),
+    // ...mapGetters(['curBgUrl', 'isRandom', 'isPlaying', 'isRepeatOne', 'curSong']),
+    ...mapGetters(['curBgUrl', 'isPlaying', 'curSong']),
   },
 };
 </script>

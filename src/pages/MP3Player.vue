@@ -9,7 +9,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import Player from './Player';
-import MusicList from './MusicList';
+import SongList from './SongList';
 import BgList from './BgList';
 import cPageStatus from '../common/constants';
 
@@ -17,7 +17,7 @@ export default {
   name: 'MP3Player',
   components: {
     Player,
-    MusicList,
+    SongList,
     BgList,
   },
   data() {
