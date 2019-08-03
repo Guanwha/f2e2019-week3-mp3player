@@ -385,6 +385,6 @@ export default {
   filter: invert(100%);
 }
 .on {
-  filter: contrast(0%);
+  filter: invert(100%);
 }
 </style>
