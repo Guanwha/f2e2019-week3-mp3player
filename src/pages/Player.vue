@@ -33,7 +33,7 @@
       <!-- control panel -->
       <div class="area-control">
         <audio id="youtube"/>
-        <div v-bind:class="['btn-random', {'on': isRandom}]"/>
+        <div v-bind:class="['btn-random', {'on': isRandom}]" @click="switchRepeatOrder"/>
         <div class="btn-previous" @click.prevent="prevSong"/>
         <div v-bind:class="['btn-playpause', {'playing': isPlaying}]" @click="playpause"/>
         <div class="btn-next" @click.prevent="nextSong"/>
@@ -239,13 +239,22 @@ export default {
         this.reload(this.curMusic, true);
       }
       else {
-        this.nextSong();
+        if (this.isRandom) {
+          const idx = Math.floor(Math.random() * this.musicNum);
+          this.selectSong(idx);
+        }
+        else {
+          this.nextSong();
+        }
       }
     },
     switchRepeatType() {
       this.isRepeatOne = !this.isRepeatOne;
     },
-    ...mapActions(['play', 'pause', 'stop', 'prevSong', 'nextSong']),
+    switchRepeatOrder() {
+      this.isRandom = !this.isRandom;
+    },
+    ...mapActions(['play', 'pause', 'stop', 'prevSong', 'nextSong', 'selectSong']),
   },
   computed: {
     // ------ time bar ------
@@ -269,7 +278,7 @@ export default {
       return `${min}:${sec}`;
     },
     // ...mapGetters(['curBgUrl', 'isRandom', 'isPlaying', 'isRepeatOne', 'curMusic']),
-    ...mapGetters(['curBgUrl', 'isPlaying', 'curMusic']),
+    ...mapGetters(['curBgUrl', 'isPlaying', 'curMusic', 'musicNum']),
   },
 };
 </script>

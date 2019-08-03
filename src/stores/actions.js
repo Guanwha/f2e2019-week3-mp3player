@@ -20,6 +20,9 @@ const actions = {
   nextSong: ({ commit }) => {
     commit(types.NEXT_SONG);
   },
+  selectSong: ({ commit }, payload) => {
+    commit(types.SELECT_SONG, payload);
+  },
 };
 
 export default actions;

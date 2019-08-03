@@ -29,7 +29,13 @@ export const mutations = {
   [types.NEXT_SONG](state) {
     let idx = state.curMusicIdx + 1;
     state.curMusicIdx = (idx > state.musicList.length - 1) ? 0 : idx;
-  }
+  },
+  [types.SELECT_SONG](state, payload) {
+    let idx = payload;
+    idx = (idx < 0) ? 0 : idx;
+    idx = (idx > state.musicList.length - 1) ? state.musicList.length - 1 : idx;
+    state.curMusicIdx = idx;
+  },
 };
 
 // state
