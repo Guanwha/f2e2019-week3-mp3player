@@ -23,6 +23,13 @@ const actions = {
   randomAnySong: ({ commit }) => {
     commit(types.RANDOM_SONG);
   },
+  // swith from Player to SongList
+  openSongList: ({ commit }) => {
+    commit(types.PLAYER_TO_LIST);
+  },
+  closeSongList: ({ commit }) => {
+    commit(types.LIST_TO_PLAYER);
+  },
 };
 
 export default actions;

@@ -3,7 +3,7 @@
        v-bind:style="{ 'background-image': 'url(' + curBgUrl + ')'}">
     <div class="frame-control">
       <!-- titles -->
-      <div class="area-title">
+      <div class="area-title" @click="openSongList()">
         <div class="title-main">{{curSong.title}}</div>
         <div class="title-sub">{{curSong.singer}}</div>
       </div>
@@ -251,7 +251,8 @@ export default {
     switchRepeatOrder() {
       this.isRandom = !this.isRandom;
     },
-    ...mapActions(['play', 'pause', 'stop', 'prevSong', 'nextSong', 'randomAnySong']),
+    ...mapActions(['play', 'pause', 'stop', 'prevSong', 'nextSong', 'randomAnySong',
+                   'openSongList']),
   },
   computed: {
     // ------ time bar ------
@@ -300,6 +301,9 @@ export default {
 // title area
 .area-title {
   margin: 42px auto 0 auto;
+  &:hover {
+    filter: drop-shadow(0 0 10px gray);
+  }
   .title-main {
     font-size: 1.375rem;
     line-height: 1.75rem;

@@ -41,6 +41,17 @@ export const mutations = {
     console.log(`select ${idx}th song.`);
     state.curSongIdx = idx;
   },
+  // swith page
+  [types.PLAYER_TO_LIST](state) {
+    if (state.curPage === pageStatus.player) {
+      state.curPage = pageStatus.songList;
+    }
+  },
+  [types.LIST_TO_PLAYER](state) {
+    if (state.curPage === pageStatus.songList) {
+      state.curPage = pageStatus.player;
+    }
+  },
 };
 
 // state
