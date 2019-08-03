@@ -37,7 +37,7 @@
         <div class="btn-previous" @click.prevent="prevSong"/>
         <div v-bind:class="['btn-playpause', {'playing': isPlaying}]" @click="playpause"/>
         <div class="btn-next" @click.prevent="nextSong"/>
-        <div v-bind:class="['btn-loop', {'repeat-one': isRepeatOne}]"/>
+        <div v-bind:class="['btn-loop', {'repeat-one': isRepeatOne}]" @click="switchRepeatType"/>
       </div>
     </div>
   </div>
@@ -52,7 +52,7 @@ export default {
     return {
       audioTag: null,
       isLoading: false,     // avoid to enter load() multiple times
-      fetchFailed: false,
+      fetchFailed: false,   // indicate the current song is fetch failed
       // time bar
       barWidth: 0,
       isDragging: false,    // flag to avoid to update 'curPlaySec' by audioTag
@@ -75,7 +75,7 @@ export default {
       handler(newMusic, oldMusic) {
         if (newMusic.vid !== oldMusic.vid) {
           // switch music
-          this.reload(newMusic);
+          this.reload(newMusic, false);
         }
       },
       deep: true,
@@ -104,10 +104,17 @@ export default {
       this.curPlaySec = parseInt(this.curTotalSec * percent, 10);
     },
     // ------ control panel ------
-    reload(music) {
+    reload(music, isSame) {
       this.stop();
       this.audioTag.pause();
-      this.load(music.vid);
+      if (isSame) {
+        this.audioTag.currentTime = 0;
+        this.audioTag.play();
+        this.play();
+      }
+      else {
+        this.load(music.vid);
+      }
     },
     playpause() {
       // check if it needs to load
@@ -221,8 +228,22 @@ export default {
       // check play finished
       if (this.audioTag.ended) {
         console.log('ended');
-        this.stop();
+        this.playEndProcess();
       }
+    },
+    // decide what to do when the music is finished
+    playEndProcess() {
+      this.stop();
+      if (this.isRepeatOne) {
+        // repeat the current music
+        this.reload(this.curMusic, true);
+      }
+      else {
+        this.nextSong();
+      }
+    },
+    switchRepeatType() {
+      this.isRepeatOne = !this.isRepeatOne;
     },
     ...mapActions(['play', 'pause', 'stop', 'prevSong', 'nextSong']),
   },
@@ -351,7 +372,7 @@ export default {
 }
 .repeat-one {
   background-image: url("../assets/btn_repeat_one.svg");
-  filter: contrast(0%);
+  filter: invert(100%);
 }
 .on {
   filter: contrast(0%);
