@@ -8,6 +8,12 @@ const actions = {
   play: ({ commit }) => {
     commit(types.PLAY);
   },
+  pause: ({ commit }) => {
+    commit(types.PAUSE);
+  },
+  stop: ({ commit }) => {
+    commit(types.STOP);
+  },
 };
 
 export default actions;
