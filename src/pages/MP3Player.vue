@@ -1,7 +1,7 @@
 <template>
   <div class="frame-player">
-    <Player v-if="currentPage === pageStatus.player"/>
-    <MusicList v-if="currentPage === pageStatus.musicList"/>
+    <Player/>
+    <SongList/>
     <BgList v-if="currentPage === pageStatus.bgList"/>
   </div>
 </template>
@@ -9,7 +9,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import Player from './Player';
-import MusicList from './MusicList';
+import SongList from './SongList';
 import BgList from './BgList';
 import cPageStatus from '../common/constants';
 
@@ -17,7 +17,7 @@ export default {
   name: 'MP3Player',
   components: {
     Player,
-    MusicList,
+    SongList,
     BgList,
   },
   data() {
@@ -33,15 +33,17 @@ export default {
 
 <style lang="scss" scoped>
 .frame-player {
-  width: 432px;
+  width: 375px;
   height: 768px;
   background: blue;
+  position: relative;
 }
 @media(max-width: 812px) {
   .frame-player {
     width: 100%;
     height: 100%;
     background: green;
+    position: relative;
   }
 }
 </style>

@@ -6,8 +6,6 @@
 
 <script>
 import MP3Player from './pages/MP3Player';
-import './styles/_reset.css';
-import './styles/_normalize.scss';
 
 export default {
   name: 'App',
@@ -17,7 +15,9 @@ export default {
 };
 </script>
 
-<style>
+<style lang='scss' scoped>
+@import './styles/_variables.scss';
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -30,5 +30,13 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  background-color: $color-bg-base;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-origin: border-box;
+  background-clip: border-box;
+  background-attachment: fixed;
 }
 </style>

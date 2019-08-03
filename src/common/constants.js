@@ -1,7 +1,7 @@
 
 const pageStatus = {
   player: 0,
-  musicList: 1,
+  songList: 1,
   bgList: 2,
 };
 

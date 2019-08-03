@@ -54,5 +54,7 @@ module.exports = {
     'indent': ["error", 2, {"FunctionExpression": {"parameters": "first"}, "CallExpression": {"arguments": "first"}}],
     // allow unary operators (++, --) in for loop
     'no-plusplus': ["error", { "allowForLoopAfterthoughts": true }],
+    // allow conditional / switchcase indent
+    'indent': ["error", 2, { "ignoredNodes": ["ConditionalExpression"], "SwitchCase": 1 }],
   }
 }

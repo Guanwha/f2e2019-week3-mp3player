@@ -3,6 +3,9 @@
 import Vue from 'vue';
 import App from './App';
 import store from './stores';
+import './styles/_reset.css';
+import './styles/_variables.scss';
+import './styles/_normalize.scss';
 
 Vue.config.productionTip = false;
 
