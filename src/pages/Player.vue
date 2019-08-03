@@ -34,10 +34,9 @@
       <div class="area-control">
         <audio id="youtube"/>
         <div v-bind:class="['btn-random', {'on': isRandom}]"/>
-        <div class="btn-previous"/>
-        <div v-bind:class="['btn-playpause', {'playing': isPlaying}]"
-             @click="playpause"/>
-        <div class="btn-next"/>
+        <div class="btn-previous" @click.prevent="prevSong"/>
+        <div v-bind:class="['btn-playpause', {'playing': isPlaying}]" @click="playpause"/>
+        <div class="btn-next" @click.prevent="nextSong"/>
         <div v-bind:class="['btn-loop', {'repeat-one': isRepeatOne}]"/>
       </div>
     </div>
@@ -53,6 +52,7 @@ export default {
     return {
       audioTag: null,
       isLoading: false,     // avoid to enter load() multiple times
+      fetchFailed: false,
       // time bar
       barWidth: 0,
       isDragging: false,    // flag to avoid to update 'curPlaySec' by audioTag
@@ -69,6 +69,17 @@ export default {
     // time bar
     const elBar = document.querySelector('.touch');
     this.barWidth = elBar.clientWidth;
+  },
+  watch: {
+    curMusic: {
+      handler(newMusic, oldMusic) {
+        if (newMusic.vid !== oldMusic.vid) {
+          // switch music
+          this.reload(newMusic);
+        }
+      },
+      deep: true,
+    },
   },
   methods: {
     // ------ time bar ------
@@ -93,12 +104,19 @@ export default {
       this.curPlaySec = parseInt(this.curTotalSec * percent, 10);
     },
     // ------ control panel ------
+    reload(music) {
+      this.stop();
+      this.audioTag.pause();
+      this.load(music.vid);
+    },
     playpause() {
       // check if it needs to load
       if (!this.audioTag.src) {
         this.load(this.curMusic.vid);
+        return;
       }
 
+      if (this.fetchFailed) return;
       if (this.isPlaying) {
         // execute pause
         this.pause();             // emit to vuex
@@ -116,6 +134,7 @@ export default {
       this.isLoading = true;
       const audioStreams = {};
 
+      this.fetchFailed = false;
       fetch(`https://${vid}-focus-opensocial.googleusercontent.com/gadgets/proxy?container=none&url=https%3A%2F%2Fwww.youtube.com%2Fget_video_info%3Fvideo_id%3D${vid}`)
         .then((response) => {
           if (response.ok) {
@@ -150,11 +169,22 @@ export default {
               if (Object.keys(audioStreams).length === 0) {
                 // can't fetch this vid
                 alert('cannot fetch this vid');
+                this.fetchFailed = true;
                 this.audioTag.ontimeupdate = null;
               }
               else {
                 this.audioTag.src = audioStreams['128kbps'];
                 console.log(`load ${this.audioTag.src}`);
+                this.audioTag.onerror = () => {
+                  alert('We cannot fetch this music because of permission');
+                  this.stop();
+                  this.fetchFailed = true;
+                  this.audioTag.ontimeupdate = null;
+                };
+
+                // execute play
+                this.play();              // emit to vuex
+                this.audioTag.play();
 
                 // add listener
                 this.audioTag.ontimeupdate = this.audioListener;
@@ -177,7 +207,6 @@ export default {
       }, {});
     },
     audioListener() {
-      console.log('ontimeupdate');
       // check audio loaded
       if (this.audioTag.duration) {
         if (!this.isDragging) {
@@ -195,7 +224,7 @@ export default {
         this.stop();
       }
     },
-    ...mapActions(['play', 'pause', 'stop']),
+    ...mapActions(['play', 'pause', 'stop', 'prevSong', 'nextSong']),
   },
   computed: {
     // ------ time bar ------

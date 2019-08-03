@@ -21,6 +21,15 @@ export const mutations = {
   [types.STOP](state) {
     state.isPlaying = false;
   },
+  // switch song
+  [types.PREV_SONG](state) {
+    let idx = state.curMusicIdx - 1;
+    state.curMusicIdx = (idx < 0) ? state.musicList.length - 1 : idx;
+  },
+  [types.NEXT_SONG](state) {
+    let idx = state.curMusicIdx + 1;
+    state.curMusicIdx = (idx > state.musicList.length - 1) ? 0 : idx;
+  }
 };
 
 // state

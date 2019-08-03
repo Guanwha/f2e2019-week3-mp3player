@@ -14,6 +14,12 @@ const actions = {
   stop: ({ commit }) => {
     commit(types.STOP);
   },
+  prevSong: ({ commit }) => {
+    commit(types.PREV_SONG);
+  },
+  nextSong: ({ commit }) => {
+    commit(types.NEXT_SONG);
+  },
 };
 
 export default actions;
