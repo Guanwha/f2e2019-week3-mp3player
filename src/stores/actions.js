@@ -20,8 +20,8 @@ const actions = {
   nextSong: ({ commit }) => {
     commit(types.NEXT_SONG);
   },
-  selectSong: ({ commit }, payload) => {
-    commit(types.SELECT_SONG, payload);
+  randomAnySong: ({ commit }) => {
+    commit(types.RANDOM_SONG);
   },
 };
 

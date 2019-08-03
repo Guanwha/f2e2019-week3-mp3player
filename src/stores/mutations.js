@@ -23,17 +23,22 @@ export const mutations = {
   },
   // switch song
   [types.PREV_SONG](state) {
-    let idx = state.curMusicIdx - 1;
+    const idx = state.curMusicIdx - 1;
+    console.log(`select ${idx}th song.`);
     state.curMusicIdx = (idx < 0) ? state.musicList.length - 1 : idx;
   },
   [types.NEXT_SONG](state) {
-    let idx = state.curMusicIdx + 1;
+    const idx = state.curMusicIdx + 1;
+    console.log(`select ${idx}th song.`);
     state.curMusicIdx = (idx > state.musicList.length - 1) ? 0 : idx;
   },
-  [types.SELECT_SONG](state, payload) {
-    let idx = payload;
-    idx = (idx < 0) ? 0 : idx;
-    idx = (idx > state.musicList.length - 1) ? state.musicList.length - 1 : idx;
+  [types.RANDOM_SONG](state) {
+    const n = state.musicList.length;
+    let idx = Math.floor(Math.random() * n);
+    while (idx === state.curMusicIdx) {
+      idx = Math.floor(Math.random() * n);
+    }
+    console.log(`select ${idx}th song.`);
     state.curMusicIdx = idx;
   },
 };
@@ -70,13 +75,13 @@ export const state = {
     vid: 'Q17GbypwqVs',
     title: 'Desert Sky',
     singer: 'Silent Partner',
-  }, {
-    vid: '5LhKG8ucAF8',
-    title: '當你孤單你會想起誰',
-    singer: '張棟樑',
-  }, {
-    vid: 'xcwHJ3ac3rs',
-    title: '終於等到你',
-    singer: '張靚穎',
+  // }, {
+  //   vid: '5LhKG8ucAF8',
+  //   title: '當你孤單你會想起誰',
+  //   singer: '張棟樑',
+  // }, {
+  //   vid: 'xcwHJ3ac3rs',
+  //   title: '終於等到你',
+  //   singer: '張靚穎',
   }],
 };

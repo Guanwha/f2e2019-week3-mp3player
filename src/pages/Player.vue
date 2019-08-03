@@ -238,14 +238,11 @@ export default {
         // repeat the current music
         this.reload(this.curMusic, true);
       }
+      else if (this.isRandom) {
+        this.randomAnySong();
+      }
       else {
-        if (this.isRandom) {
-          const idx = Math.floor(Math.random() * this.musicNum);
-          this.selectSong(idx);
-        }
-        else {
-          this.nextSong();
-        }
+        this.nextSong();
       }
     },
     switchRepeatType() {
@@ -254,7 +251,7 @@ export default {
     switchRepeatOrder() {
       this.isRandom = !this.isRandom;
     },
-    ...mapActions(['play', 'pause', 'stop', 'prevSong', 'nextSong', 'selectSong']),
+    ...mapActions(['play', 'pause', 'stop', 'prevSong', 'nextSong', 'randomAnySong']),
   },
   computed: {
     // ------ time bar ------
@@ -278,7 +275,7 @@ export default {
       return `${min}:${sec}`;
     },
     // ...mapGetters(['curBgUrl', 'isRandom', 'isPlaying', 'isRepeatOne', 'curMusic']),
-    ...mapGetters(['curBgUrl', 'isPlaying', 'curMusic', 'musicNum']),
+    ...mapGetters(['curBgUrl', 'isPlaying', 'curMusic']),
   },
 };
 </script>
