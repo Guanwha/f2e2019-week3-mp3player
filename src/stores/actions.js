@@ -14,6 +14,7 @@ const actions = {
   stop: ({ commit }) => {
     commit(types.STOP);
   },
+  // switch song
   prevSong: ({ commit }) => {
     commit(types.PREV_SONG);
   },
@@ -25,6 +26,10 @@ const actions = {
   },
   selectSong: ({ commit }, payload) => {
     commit(types.SELECT_SONG, payload);
+  },
+  // create / delete song
+  deleteSong: ({ commit }, payload) => {
+    commit(types.DELETE_SONG, payload);
   },
   // swith from Player to SongList
   openSongList: ({ commit }) => {

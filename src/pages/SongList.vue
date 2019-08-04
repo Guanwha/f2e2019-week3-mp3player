@@ -72,7 +72,6 @@ export default {
       this.editingSong = song;
     },
     closeDialogAddSong() {
-      console.log('close');
       this.isEditSong = false;
       this.isCreateSong = false;
     },

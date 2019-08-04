@@ -41,6 +41,28 @@ export const mutations = {
     console.log(`select ${idx}th song.`);
     state.curSongIdx = idx;
   },
+  // delete song
+  // payload is a vid
+  [types.DELETE_SONG](state, payload) {
+    console.log(`mutation: ${payload}`);
+    let i;
+    for (i = 0; i < state.songList.length; i++) {
+      if (state.songList[i].vid === payload) {
+        // check if this song is the current song
+        console.log(`delete, ${i}, ${state.curSongIdx}`);
+        if (i === state.curSongIdx) {
+          state.curSongIdx = -1;
+        }
+        // remove
+        state.songList.splice(i, 1);
+        // if i < curSongIdx, the curSongIdx need to be update
+        if (i < state.curSongIdx) {
+          state.curSongIdx -= 1;
+        }
+        return;
+      }
+    }
+  },
   // payload is the song's vid
   [types.SELECT_SONG](state, payload) {
     let i;

@@ -15,14 +15,24 @@
         <input class="field" v-model="singer" placeholder="Please enter singer (Option)">
       </div>
       <div class="area-btns">
-        <div v-bind:class="['btn', {'is-danger': !pIsNew}]">{{(pIsNew ? 'Cancel' : 'Delete')}}</div>
-        <div class="btn">{{(pIsNew ? 'Create' : 'Confirm')}}</div>
+        <div v-bind:class="['btn', {'is-danger': !pIsNew}]"
+             @click="cancelDelete()"
+        >
+          {{(pIsNew ? 'Cancel' : 'Delete')}}
+        </div>
+        <div class="btn"
+             @click="createConfirm()"
+        >
+          {{(pIsNew ? 'Create' : 'Confirm')}}
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'DialogSong',
   props: {
@@ -49,8 +59,30 @@ export default {
         this.song = '';
         this.singer = '';
       }
-    }
-  }
+    },
+  },
+  methods: {
+    cancelDelete() {
+      if (this.pIsNew) {
+        this.$emit('close');
+      }
+      else {
+        // [TODO] emit to vuex deleteSong
+        this.deleteSong(this.youtube);
+        this.$emit('close');
+      }
+    },
+    createConfirm() {
+      // [TODO] check youtube url / vid
+      if (this.pIsNew) {
+        // [TODO] emit to vuex addSong
+      }
+      else {
+        // [TODO] emit to vuex updateSong
+      }
+    },
+    ...mapActions(['deleteSong']),
+  },
 };
 </script>
 
