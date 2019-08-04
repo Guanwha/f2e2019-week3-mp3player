@@ -4,7 +4,7 @@
     <div class="frame-control">
       <!-- titles -->
       <div class="area-title" @click="openSongList()">
-        <div class="title-main">{{curSong.title}}</div>
+        <div class="title-main">{{songTitle}}</div>
         <div class="title-sub">{{curSong.singer}}</div>
       </div>
       <!-- time bar -->
@@ -260,6 +260,10 @@ export default {
       'openSongList']),
   },
   computed: {
+    // ------ title ------
+    songTitle() {
+      return (this.curSong.title.length === 0) ? 'No Title' : this.curSong.title;
+    },
     // ------ time bar ------
     curPlayPoint() {
       return -7.5 + (this.barWidth * (this.curPlaySec / this.curTotalSec));

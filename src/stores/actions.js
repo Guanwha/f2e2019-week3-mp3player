@@ -28,6 +28,9 @@ const actions = {
     commit(types.SELECT_SONG, payload);
   },
   // create / delete song
+  createSong: ({ commit }, payload) => {
+    commit(types.CREATE_SONG, payload);
+  },
   deleteSong: ({ commit }, payload) => {
     commit(types.DELETE_SONG, payload);
   },

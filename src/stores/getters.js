@@ -10,7 +10,7 @@ const getters = {
       return state.songList[state.curSongIdx];
     }
     else {
-      return { vid:'', title:'Click here to select song', singer:'_' };
+      return { vid:'', title:'', singer:'' };
     }
   },
   songs: state => state.songList,

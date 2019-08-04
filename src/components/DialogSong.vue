@@ -8,7 +8,7 @@
       </div>
       <div class="area-info">
         <div class="title">Song：</div>
-        <input class="field" v-model="song" placeholder="Please enter song title (Option)">
+        <input class="field" v-model="title" placeholder="Please enter song title (Option)">
       </div>
       <div class="area-info">
         <div class="title">Singer：</div>
@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       youtube: '',        // youtube url or vid
-      song: '',           // song title
+      title: '',          // song title
       singer: '',         // singer name
     };
   },
@@ -51,12 +51,12 @@ export default {
     pSong(newSong) {
       if (newSong) {
         this.youtube = newSong.vid;
-        this.song = newSong.title;
+        this.title = newSong.title;
         this.singer = newSong.singer;
       }
       else {
         this.youtube = '';
-        this.song = '';
+        this.title = '';
         this.singer = '';
       }
     },
@@ -67,7 +67,7 @@ export default {
         this.$emit('close');
       }
       else {
-        // [TODO] emit to vuex deleteSong
+        // emit to vuex deleteSong
         this.deleteSong(this.youtube);
         this.$emit('close');
       }
@@ -76,12 +76,49 @@ export default {
       // [TODO] check youtube url / vid
       if (this.pIsNew) {
         // [TODO] emit to vuex addSong
+        const vid = this.checkYoutubeURL(this.youtube);
+        console.log(`vid: ${vid}`);
+        if (!vid || vid.length !== 11) {
+          alert('cannot find the video id');
+          return;
+        }
+        this.createSong({
+          vid,
+          title: this.title,
+          singer: this.singer,
+        });
+        this.$emit('close');
       }
       else {
         // [TODO] emit to vuex updateSong
       }
     },
-    ...mapActions(['deleteSong']),
+    checkYoutubeURL(str) {
+      // check https://www.youtube.com/watch?v=xxxxxxxxxxx&list=yyyyyyyyyyyyyyyyyyyyyyyyyy&index=nn
+      let urlData = str.split('?').map(value => value);
+      if (urlData[1]) {
+        const dataMap = urlData[1].split('&').reduce((params, param) => {
+          const paramsM = params;
+          const paramSplit = param.split('=').map(value =>
+            decodeURIComponent(value.replace('+', ' ')),
+          );
+          paramsM[paramSplit[0]] = paramSplit[1];
+          console.log(paramsM);
+          return paramsM;
+        }, {});
+        if (dataMap.v) {
+          return dataMap.v;
+        }
+      }
+
+      // check https://youtu.be/xxxxxxxxxxx
+      urlData = str.split('https://youtu.be/').map(value => value);
+      if (urlData[1]) {
+        return urlData[1];
+      }
+      return '';
+    },
+    ...mapActions(['createSong', 'deleteSong']),
   },
 };
 </script>

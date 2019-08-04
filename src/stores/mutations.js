@@ -41,15 +41,24 @@ export const mutations = {
     console.log(`select ${idx}th song.`);
     state.curSongIdx = idx;
   },
+  // create song
+  // payload is song object (include vid, song title, singer name)
+  [types.CREATE_SONG](state, payload) {
+    let i;
+    for (i = 0; i < state.songList.length; i++) {
+      if (payload.vid === state.songList[i].vid) {
+        return;
+      }
+    }
+    state.songList.push(payload);
+  },
   // delete song
   // payload is a vid
   [types.DELETE_SONG](state, payload) {
-    console.log(`mutation: ${payload}`);
     let i;
     for (i = 0; i < state.songList.length; i++) {
       if (state.songList[i].vid === payload) {
         // check if this song is the current song
-        console.log(`delete, ${i}, ${state.curSongIdx}`);
         if (i === state.curSongIdx) {
           state.curSongIdx = -1;
         }
