@@ -4,15 +4,15 @@
     <div v-show="showAll" class="frame-list">
       <div class="list-upper">
         <div class="title">SONG LIST</div>
-        <div class="btn-back" @click.prevent="closeSongList()"/>
-        <div class="btn-add" @click.prevent="openDialogAddSong(true, null)"/>
+        <div class="btn-back" @click="closeSongList()"/>
+        <div class="btn-add" @click="openDialogAddSong(true, null)"/>
       </div>
       <RecycleScroller class="list"
                         :items="songs"
                         :item-size="70"
                         key-field="vid"
                         v-slot="{ item }">
-        <div class="song-outer" @click.prevent="openDialogAddSong(false, item)">
+        <div class="song-outer" @click="openDialogAddSong(false, item)">
           <div class="song-inner">
             <div class="song-info">
               <div class="song-title">{{item.title}}</div>
@@ -20,7 +20,7 @@
             </div>
             <div v-bind:class="['song-btn',
                                 (((item.vid === curSong.vid) && isPlaying) ? 'pause' : 'play')]"
-                 @click="playpause(item)">
+                 @click.stop="playpause(item)">
             </div>
           </div>
         </div>

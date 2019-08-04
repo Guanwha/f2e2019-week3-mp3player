@@ -8,11 +8,11 @@
       </div>
       <div class="area-info">
         <div class="title">Song：</div>
-        <input class="field" v-model="song" placeholder="Please enter song title">
+        <input class="field" v-model="song" placeholder="Please enter song title (Option)">
       </div>
       <div class="area-info">
         <div class="title">Singer：</div>
-        <input class="field" v-model="singer" placeholder="Please enter singer">
+        <input class="field" v-model="singer" placeholder="Please enter singer (Option)">
       </div>
       <div class="area-btns">
         <div v-bind:class="['btn', {'is-danger': !pIsNew}]">{{(pIsNew ? 'Cancel' : 'Delete')}}</div>
@@ -86,7 +86,7 @@ $color-main: hsl(0, 3%, 25%);
 .backboard {
   width: 80%;
   height: auto;
-  background: hsla(0, 3%, 95%, 0.85);
+  background: hsla(0, 3%, 95%, 0.8);
   border: 5px solid $color-main;
   border-radius: $outer-border-radius;
   padding: 50px 30px;
