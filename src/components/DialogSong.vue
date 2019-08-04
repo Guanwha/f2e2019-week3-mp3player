@@ -64,7 +64,7 @@ $color-main: hsl(0, 3%, 25%);
 .frame-dialog-hide {
   width: 0;
   height: 0;
-  background: $color-dlg-bg;
+  background: #00000000;
   position: fixed;
   right: 33px;
   top: 66px;
@@ -73,7 +73,7 @@ $color-main: hsl(0, 3%, 25%);
 .frame-dialog-show {
   width: 100%;
   height: 100%;
-  background: $color-dlg-bg;
+  background: #00000099;
   position: fixed;
   right: 0;
   top: 0;

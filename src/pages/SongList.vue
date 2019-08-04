@@ -100,7 +100,8 @@ $open-speed: 0.3s;
   position: absolute;
   left: 0;
   bottom: 24%;
-  background: green;
+  background: darkgoldenrod;
+  background-size: cover;
   transition: $open-speed;
 }
 .frame-show {
@@ -110,6 +111,7 @@ $open-speed: 0.3s;
   left: 0;
   bottom: 0;
   background: darkgoldenrod;
+  background-size: cover;
   padding-top: 44px;
   transition: $open-speed;
 }
