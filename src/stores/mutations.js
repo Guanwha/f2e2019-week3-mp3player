@@ -41,6 +41,16 @@ export const mutations = {
     console.log(`select ${idx}th song.`);
     state.curSongIdx = idx;
   },
+  // payload is the song's vid
+  [types.SELECT_SONG](state, payload) {
+    let i;
+    for (i = 0; i < state.songList.length; i++) {
+      if (state.songList[i].vid === payload) {
+        state.curSongIdx = i;
+        break;
+      }
+    }
+  },
   // swith page
   [types.PLAYER_TO_LIST](state) {
     if (state.curPage === pageStatus.player) {

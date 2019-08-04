@@ -23,6 +23,9 @@ const actions = {
   randomAnySong: ({ commit }) => {
     commit(types.RANDOM_SONG);
   },
+  selectSong: ({ commit }, payload) => {
+    commit(types.SELECT_SONG, payload);
+  },
   // swith from Player to SongList
   openSongList: ({ commit }) => {
     commit(types.PLAYER_TO_LIST);

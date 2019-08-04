@@ -17,7 +17,9 @@
               <div class="song-title">{{item.title}}</div>
               <div class="song-singer">{{item.singer}}</div>
             </div>
-            <div v-bind:class="['song-btn', (((item.vid === curSong.vid) && isPlaying) ? 'pause' : 'play')]">
+            <div v-bind:class="['song-btn',
+                                (((item.vid === curSong.vid) && isPlaying) ? 'pause' : 'play')]"
+                 @click="playpause(item)">
             </div>
           </div>
         </div>
@@ -38,14 +40,28 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['closeSongList']),
+    playpause(song) {
+      if (song.vid === this.curSong.vid) {
+        if (this.isPlaying) {
+          this.pause();     // switch to pause
+        }
+        else {
+          this.play();      // switch to play
+        }
+      }
+      else {
+        // switch song
+        this.selectSong(song.vid);
+      }
+    },
+    ...mapActions(['closeSongList', 'play', 'pause', 'selectSong']),
   },
   computed: {
     showAll() {
       return this.currentPage === this.pageStatus.songList;
     },
     ...mapGetters(['currentPage', 'curBgUrl', 'isPlaying', 'songs', 'curSong']),
-  }
+  },
 };
 </script>
 
@@ -96,11 +112,12 @@ $open-speed: 0.3s;
     height: 44px;
     background-image: url('../assets/btn_back.svg');
     filter: invert(100%) drop-shadow(0 0 2px $color-white);
+    transform: rotateZ(-90deg);
     position: absolute;
     left: 11px;
     top: 0;
     &:hover {
-      transform: scale(1.5);
+      transform: rotateZ(-90deg) scale(1.5);
     }
   }
 }
@@ -147,6 +164,9 @@ $open-speed: 0.3s;
   .song-btn {
     width: 50px;
     height: 50px;
+    &:hover {
+      transform: scale(1.5);
+    }
   }
   .play {
     background-image: url('../assets/btn_play_small.svg');

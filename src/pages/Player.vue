@@ -80,6 +80,22 @@ export default {
       },
       deep: true,
     },
+    isPlaying(isPlay) {
+      // check if it needs to load
+      if (!this.audioTag.src) {
+        this.load(this.curSong.vid);
+        return;
+      }
+      if (this.fetchFailed) return;
+
+      // execute
+      if (isPlay) {
+        this.audioTag.play();
+      }
+      else {
+        this.audioTag.pause();
+      }
+    },
   },
   methods: {
     // ------ time bar ------
@@ -117,22 +133,11 @@ export default {
       }
     },
     playpause() {
-      // check if it needs to load
-      if (!this.audioTag.src) {
-        this.load(this.curSong.vid);
-        return;
-      }
-
-      if (this.fetchFailed) return;
       if (this.isPlaying) {
-        // execute pause
         this.pause();             // emit to vuex
-        this.audioTag.pause();
       }
       else {
-        // execute play
         this.play();              // emit to vuex
-        this.audioTag.play();
       }
     },
     load(vid) {
