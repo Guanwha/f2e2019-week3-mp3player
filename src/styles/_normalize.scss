@@ -1,0 +1,17 @@
+// box-sizing
+* {
+        box-sizing: border-box;
+   -moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+
+font-family: 'Merriweather Sans', sans-serif;
+user-select: none;
+}
+
+// fill the whole view
+html {
+  height: 100%;
+}
+body {
+  height: 100%;
+}
