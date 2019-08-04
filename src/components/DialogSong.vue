@@ -50,7 +50,6 @@ export default {
   watch: {
     pSong: {
       handler(newSong) {
-        console.log(newSong);
         if (newSong) {
           this.youtube = newSong.vid;
           this.title = newSong.title;
@@ -63,7 +62,7 @@ export default {
         }
       },
       deep: true,
-    }
+    },
   },
   methods: {
     cancelDelete() {
@@ -104,7 +103,6 @@ export default {
             singer: this.singer,
           },
         };
-        console.log(payload);
         this.updateSong(payload);
         this.$emit('close');
       }
@@ -124,7 +122,6 @@ export default {
             decodeURIComponent(value.replace('+', ' ')),
           );
           paramsM[paramSplit[0]] = paramSplit[1];
-          console.log(paramsM);
           return paramsM;
         }, {});
         if (dataMap.v) {

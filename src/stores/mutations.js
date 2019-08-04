@@ -24,12 +24,12 @@ export const mutations = {
   // switch song
   [types.PREV_SONG](state) {
     const idx = state.curSongIdx - 1;
-    console.log(`select ${idx}th song.`);
+    // console.log(`select ${idx}th song.`);
     state.curSongIdx = (idx < 0) ? state.songList.length - 1 : idx;
   },
   [types.NEXT_SONG](state) {
     const idx = state.curSongIdx + 1;
-    console.log(`select ${idx}th song.`);
+    // console.log(`select ${idx}th song.`);
     state.curSongIdx = (idx > state.songList.length - 1) ? 0 : idx;
   },
   [types.RANDOM_SONG](state) {
@@ -38,7 +38,7 @@ export const mutations = {
     while (idx === state.curSongIdx) {
       idx = Math.floor(Math.random() * n);
     }
-    console.log(`select ${idx}th song.`);
+    // console.log(`select ${idx}th song.`);
     state.curSongIdx = idx;
   },
   // create song
@@ -63,8 +63,6 @@ export const mutations = {
         for (j = 0; j < state.songList.length; j++) {
           if (i !== j && state.songList[j].vid === payload.updatedSong.vid) {
             // vid is repeated, don't update
-            console.log(`vid repeated ${i}-${j}`);
-            console.log(`vid repeated ${state.songList[i].vid}-${payload.updatedSong.vid}`);
             return;
           }
         }
