@@ -5,13 +5,14 @@
       <div class="list-upper">
         <div class="title">SONG LIST</div>
         <div class="btn-back" @click.prevent="closeSongList()"/>
+        <div class="btn-add" @click.prevent="openDialogAddSong(true, null)"/>
       </div>
       <RecycleScroller class="list"
                         :items="songs"
                         :item-size="70"
                         key-field="vid"
                         v-slot="{ item }">
-        <div class="song-outer">
+        <div class="song-outer" @click.prevent="openDialogAddSong(false, item)">
           <div class="song-inner">
             <div class="song-info">
               <div class="song-title">{{item.title}}</div>
@@ -25,18 +26,29 @@
         </div>
       </RecycleScroller>
     </div>
+    <DialogSong v-bind:pIsShow="showDialog"
+                v-bind:pIsNew="isCreateSong"
+                v-bind:pSong="editingSong"
+                @close="closeDialogAddSong"/>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import cPageStatus from '../common/constants';
+import DialogSong from '../components/DialogSong';
 
 export default {
   name: 'SongList',
+  components: {
+    DialogSong,
+  },
   data() {
     return {
       pageStatus: cPageStatus,
+      isCreateSong: false,
+      isEditSong: false,
+      editingSong: null,
     };
   },
   methods: {
@@ -54,11 +66,24 @@ export default {
         this.selectSong(song.vid);
       }
     },
+    openDialogAddSong(isCreate, song) {
+      this.isEditSong = true;
+      this.isCreateSong = isCreate;
+      this.editingSong = song;
+    },
+    closeDialogAddSong() {
+      console.log('close');
+      this.isEditSong = false;
+      this.isCreateSong = false;
+    },
     ...mapActions(['closeSongList', 'play', 'pause', 'selectSong']),
   },
   computed: {
     showAll() {
       return this.currentPage === this.pageStatus.songList;
+    },
+    showDialog() {
+      return this.showAll && (this.isCreateSong || this.isEditSong);
     },
     ...mapGetters(['currentPage', 'curBgUrl', 'isPlaying', 'songs', 'curSong']),
   },
@@ -118,6 +143,19 @@ $open-speed: 0.3s;
     top: 0;
     &:hover {
       transform: rotateZ(-90deg) scale(1.5);
+    }
+  }
+  .btn-add {
+    width: 44px;
+    height: 44px;
+    background-image: url('../assets/btn_plus.png');
+    background-position: center center;
+    filter: drop-shadow(0 0 2px $color-white);
+    position: absolute;
+    right: 11px;
+    top: 0;
+    &:hover {
+      transform: scale(1.5);
     }
   }
 }
