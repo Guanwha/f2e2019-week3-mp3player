@@ -3,7 +3,7 @@
        @click.self="$emit('close')">
     <div v-if="pIsShow" class="backboard">
       <div class="area-info">
-        <div class="title">Youtube URL/vid：</div>
+        <div class="title">Youtube URL/vid：(<a href="https://www.youtube.com/channel/UCorqI2EE1avwlTCekjfi0LQ" target="_blank">免費音樂</a>)</div>
         <input class="field" v-model="youtube" placeholder="Please enter youtube url or vid">
       </div>
       <div class="area-info">
