@@ -48,18 +48,22 @@ export default {
     };
   },
   watch: {
-    pSong(newSong) {
-      if (newSong) {
-        this.youtube = newSong.vid;
-        this.title = newSong.title;
-        this.singer = newSong.singer;
-      }
-      else {
-        this.youtube = '';
-        this.title = '';
-        this.singer = '';
-      }
-    },
+    pSong: {
+      handler(newSong) {
+        console.log(newSong);
+        if (newSong) {
+          this.youtube = newSong.vid;
+          this.title = newSong.title;
+          this.singer = newSong.singer;
+        }
+        else {
+          this.youtube = '';
+          this.title = '';
+          this.singer = '';
+        }
+      },
+      deep: true,
+    }
   },
   methods: {
     cancelDelete() {
@@ -74,14 +78,15 @@ export default {
     },
     createConfirm() {
       // [TODO] check youtube url / vid
+      const vid = this.checkYoutubeURL(this.youtube);
+      if (!vid || vid.length !== 11) {
+        alert('cannot find the video id');
+        return;
+      }
+      console.log(`vid: ${vid}`);
+
       if (this.pIsNew) {
         // [TODO] emit to vuex addSong
-        const vid = this.checkYoutubeURL(this.youtube);
-        console.log(`vid: ${vid}`);
-        if (!vid || vid.length !== 11) {
-          alert('cannot find the video id');
-          return;
-        }
         this.createSong({
           vid,
           title: this.title,
@@ -91,9 +96,25 @@ export default {
       }
       else {
         // [TODO] emit to vuex updateSong
+        const payload = {
+          vid: this.pSong.vid,
+          updatedSong: {
+            vid,
+            title: this.title,
+            singer: this.singer,
+          },
+        };
+        console.log(payload);
+        this.updateSong(payload);
+        this.$emit('close');
       }
     },
     checkYoutubeURL(str) {
+      // check vid
+      if (str.length === 11) {
+        return str;
+      }
+
       // check https://www.youtube.com/watch?v=xxxxxxxxxxx&list=yyyyyyyyyyyyyyyyyyyyyyyyyy&index=nn
       let urlData = str.split('?').map(value => value);
       if (urlData[1]) {
@@ -118,7 +139,7 @@ export default {
       }
       return '';
     },
-    ...mapActions(['createSong', 'deleteSong']),
+    ...mapActions(['createSong', 'updateSong', 'deleteSong']),
   },
 };
 </script>

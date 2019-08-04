@@ -75,6 +75,7 @@ export default {
       handler(newSong, oldSong) {
         if (newSong.vid !== oldSong.vid) {
           // switch song
+          console.log(`switch song ${oldSong.vid} --> ${newSong.vid}`);
           this.reload(newSong, false);
         }
       },

@@ -52,6 +52,34 @@ export const mutations = {
     }
     state.songList.push(payload);
   },
+  // update song
+  // payload is a object { origin vid,  updatedSong:{ vid, title, singer } }
+  [types.UPDATE_SONG](state, payload) {
+    let i;
+    for (i = 0; i < state.songList.length; i++) {
+      if (state.songList[i].vid === payload.vid) {
+        // check vid
+        let j;
+        for (j = 0; j < state.songList.length; j++) {
+          if (i !== j && state.songList[j].vid === payload.updatedSong.vid) {
+            // vid is repeated, don't update
+            console.log(`vid repeated ${i}-${j}`);
+            console.log(`vid repeated ${state.songList[i].vid}-${payload.updatedSong.vid}`);
+            return;
+          }
+        }
+        // if the current vid is changed, stop the current song
+        if (i === state.curSongIdx && state.songList[i].vid !== payload.updatedSong.vid) {
+          state.isPlaying = false;
+          state.curSongIdx = -1;
+        }
+        // no vid is repeated, and update
+        state.songList[i].vid = payload.updatedSong.vid;
+        state.songList[i].title = payload.updatedSong.title;
+        state.songList[i].singer = payload.updatedSong.singer;
+      }
+    }
+  },
   // delete song
   // payload is a vid
   [types.DELETE_SONG](state, payload) {
