@@ -14,6 +14,7 @@ const actions = {
   stop: ({ commit }) => {
     commit(types.STOP);
   },
+  // switch song
   prevSong: ({ commit }) => {
     commit(types.PREV_SONG);
   },
@@ -22,6 +23,19 @@ const actions = {
   },
   randomAnySong: ({ commit }) => {
     commit(types.RANDOM_SONG);
+  },
+  selectSong: ({ commit }, payload) => {
+    commit(types.SELECT_SONG, payload);
+  },
+  // create / update / delete song
+  createSong: ({ commit }, payload) => {
+    commit(types.CREATE_SONG, payload);
+  },
+  updateSong: ({ commit }, payload) => {
+    commit(types.UPDATE_SONG, payload);
+  },
+  deleteSong: ({ commit }, payload) => {
+    commit(types.DELETE_SONG, payload);
   },
   // swith from Player to SongList
   openSongList: ({ commit }) => {

@@ -4,7 +4,7 @@
     <div class="frame-control">
       <!-- titles -->
       <div class="area-title" @click="openSongList()">
-        <div class="title-main">{{curSong.title}}</div>
+        <div class="title-main">{{songTitle}}</div>
         <div class="title-sub">{{curSong.singer}}</div>
       </div>
       <!-- time bar -->
@@ -75,10 +75,27 @@ export default {
       handler(newSong, oldSong) {
         if (newSong.vid !== oldSong.vid) {
           // switch song
+          console.log(`switch song ${oldSong.vid} --> ${newSong.vid}`);
           this.reload(newSong, false);
         }
       },
       deep: true,
+    },
+    isPlaying(isPlay) {
+      // check if it needs to load
+      if (!this.audioTag.src) {
+        this.load(this.curSong.vid);
+        return;
+      }
+      if (this.fetchFailed) return;
+
+      // execute
+      if (isPlay) {
+        this.audioTag.play();
+      }
+      else {
+        this.audioTag.pause();
+      }
     },
   },
   methods: {
@@ -117,22 +134,11 @@ export default {
       }
     },
     playpause() {
-      // check if it needs to load
-      if (!this.audioTag.src) {
-        this.load(this.curSong.vid);
-        return;
-      }
-
-      if (this.fetchFailed) return;
       if (this.isPlaying) {
-        // execute pause
         this.pause();             // emit to vuex
-        this.audioTag.pause();
       }
       else {
-        // execute play
         this.play();              // emit to vuex
-        this.audioTag.play();
       }
     },
     load(vid) {
@@ -252,9 +258,13 @@ export default {
       this.isRandom = !this.isRandom;
     },
     ...mapActions(['play', 'pause', 'stop', 'prevSong', 'nextSong', 'randomAnySong',
-                   'openSongList']),
+      'openSongList']),
   },
   computed: {
+    // ------ title ------
+    songTitle() {
+      return (this.curSong.title.length === 0) ? 'No Title' : this.curSong.title;
+    },
     // ------ time bar ------
     curPlayPoint() {
       return -7.5 + (this.barWidth * (this.curPlaySec / this.curTotalSec));

@@ -24,12 +24,12 @@ export const mutations = {
   // switch song
   [types.PREV_SONG](state) {
     const idx = state.curSongIdx - 1;
-    console.log(`select ${idx}th song.`);
+    // console.log(`select ${idx}th song.`);
     state.curSongIdx = (idx < 0) ? state.songList.length - 1 : idx;
   },
   [types.NEXT_SONG](state) {
     const idx = state.curSongIdx + 1;
-    console.log(`select ${idx}th song.`);
+    // console.log(`select ${idx}th song.`);
     state.curSongIdx = (idx > state.songList.length - 1) ? 0 : idx;
   },
   [types.RANDOM_SONG](state) {
@@ -38,8 +38,75 @@ export const mutations = {
     while (idx === state.curSongIdx) {
       idx = Math.floor(Math.random() * n);
     }
-    console.log(`select ${idx}th song.`);
+    // console.log(`select ${idx}th song.`);
     state.curSongIdx = idx;
+  },
+  // create song
+  // payload is song object (include vid, song title, singer name)
+  [types.CREATE_SONG](state, payload) {
+    let i;
+    for (i = 0; i < state.songList.length; i++) {
+      if (payload.vid === state.songList[i].vid) {
+        return;
+      }
+    }
+    state.songList.push(payload);
+  },
+  // update song
+  // payload is a object { origin vid,  updatedSong:{ vid, title, singer } }
+  [types.UPDATE_SONG](state, payload) {
+    let i;
+    for (i = 0; i < state.songList.length; i++) {
+      if (state.songList[i].vid === payload.vid) {
+        // check vid
+        let j;
+        for (j = 0; j < state.songList.length; j++) {
+          if (i !== j && state.songList[j].vid === payload.updatedSong.vid) {
+            // vid is repeated, don't update
+            return;
+          }
+        }
+        // if the current vid is changed, stop the current song
+        if (i === state.curSongIdx && state.songList[i].vid !== payload.updatedSong.vid) {
+          state.isPlaying = false;
+          state.curSongIdx = -1;
+        }
+        // no vid is repeated, and update
+        state.songList[i].vid = payload.updatedSong.vid;
+        state.songList[i].title = payload.updatedSong.title;
+        state.songList[i].singer = payload.updatedSong.singer;
+      }
+    }
+  },
+  // delete song
+  // payload is a vid
+  [types.DELETE_SONG](state, payload) {
+    let i;
+    for (i = 0; i < state.songList.length; i++) {
+      if (state.songList[i].vid === payload) {
+        // check if this song is the current song
+        if (i === state.curSongIdx) {
+          state.curSongIdx = -1;
+        }
+        // remove
+        state.songList.splice(i, 1);
+        // if i < curSongIdx, the curSongIdx need to be update
+        if (i < state.curSongIdx) {
+          state.curSongIdx -= 1;
+        }
+        return;
+      }
+    }
+  },
+  // payload is the song's vid
+  [types.SELECT_SONG](state, payload) {
+    let i;
+    for (i = 0; i < state.songList.length; i++) {
+      if (state.songList[i].vid === payload) {
+        state.curSongIdx = i;
+        break;
+      }
+    }
   },
   // swith page
   [types.PLAYER_TO_LIST](state) {
