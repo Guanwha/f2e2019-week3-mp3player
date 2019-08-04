@@ -252,7 +252,7 @@ export default {
       this.isRandom = !this.isRandom;
     },
     ...mapActions(['play', 'pause', 'stop', 'prevSong', 'nextSong', 'randomAnySong',
-                   'openSongList']),
+      'openSongList']),
   },
   computed: {
     // ------ time bar ------

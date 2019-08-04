@@ -7,7 +7,12 @@ import './styles/_reset.css';
 import './styles/_variables.scss';
 import './styles/_normalize.scss';
 
+// scrollview
+import { RecycleScroller } from 'vue-virtual-scroller';
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
+
 Vue.config.productionTip = false;
+Vue.component('RecycleScroller', RecycleScroller);
 
 /* eslint-disable no-new */
 new Vue({

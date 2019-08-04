@@ -6,12 +6,22 @@
         <div class="title">SONG LIST</div>
         <div class="btn-back" @click.prevent="closeSongList()"/>
       </div>
-      <div class="list">
-        <div v-for="song in songs"
-             v-bind:key="song.vid">
-          <div class="song">{{song.title}}</div>
+      <RecycleScroller class="list"
+                        :items="songs"
+                        :item-size="70"
+                        key-field="vid"
+                        v-slot="{ item }">
+        <div class="song-outer">
+          <div class="song-inner">
+            <div class="song-info">
+              <div class="song-title">{{item.title}}</div>
+              <div class="song-singer">{{item.singer}}</div>
+            </div>
+            <div v-bind:class="['song-btn', (((item.vid === curSong.vid) && isPlaying) ? 'pause' : 'play')]">
+            </div>
+          </div>
         </div>
-      </div>
+      </RecycleScroller>
     </div>
   </div>
 </template>
@@ -34,7 +44,7 @@ export default {
     showAll() {
       return this.currentPage === this.pageStatus.songList;
     },
-    ...mapGetters(['currentPage', 'curBgUrl', 'songs', 'curSong']),
+    ...mapGetters(['currentPage', 'curBgUrl', 'isPlaying', 'songs', 'curSong']),
   }
 };
 </script>
@@ -96,13 +106,59 @@ $open-speed: 0.3s;
 }
 // lower list
 .list {
-  width: 85%;
+  width: 100%;
   height: 100%;
   margin: 0 auto 0 auto;
   padding-top: 61px;
-  background: darkolivegreen;
 }
-.song {
+.song-outer {
   height: 70px;
+  &:hover {
+    box-shadow: 0 0 20px $color-gray;
+  }
+}
+.song-inner {
+  width: 85%;
+  height: 100%;
+  margin: 0 auto;
+  border-bottom: 1px solid $color-sub;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  .song-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+  }
+  .song-title {
+    color: $color-main;
+    font-size: 18pt;
+    line-height: 23px;
+    font-weight: bold;
+  }
+  .song-singer {
+    color: $color-main;
+    font-size: 14pt;
+    line-height: 18px;
+    margin-top: 10px;
+  }
+  .song-btn {
+    width: 50px;
+    height: 50px;
+  }
+  .play {
+    background-image: url('../assets/btn_play_small.svg');
+  }
+  .pause {
+    background-image: url('../assets/btn_pause_small.svg');
+  }
+}
+
+// Hidden scroll bar
+/* width */
+::-webkit-scrollbar {
+  width: 0px;
 }
 </style>
