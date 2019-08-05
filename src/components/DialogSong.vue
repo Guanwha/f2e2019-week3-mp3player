@@ -3,8 +3,9 @@
        @click.self="$emit('close')">
     <div v-if="pIsShow" class="backboard">
       <div class="area-info">
-        <div class="title">Youtube URL/vid：(<a href="https://www.youtube.com/channel/UCorqI2EE1avwlTCekjfi0LQ" target="_blank">免費音樂</a>)</div>
+        <div class="title">Youtube URL/vid：</div>
         <input class="field" v-model="youtube" placeholder="Please enter youtube url or vid">
+        <div>(<a href="https://www.youtube.com/channel/UCorqI2EE1avwlTCekjfi0LQ" target="_blank">免費音樂</a>)</div>
       </div>
       <div class="area-info">
         <div class="title">Song：</div>
@@ -171,21 +172,25 @@ $color-main: hsl(0, 3%, 25%);
   align-items: center;
 }
 .backboard {
-  width: 80%;
+  width: 318px;
   height: auto;
   background: hsla(0, 3%, 95%, 0.8);
-  border: 5px solid $color-main;
+  border: 3px solid $color-main;
   border-radius: $outer-border-radius;
-  padding: 50px 30px;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media(max-width: 812px) {
+    width: 85%;
+  }
 }
 .area-info {
   width: 100%;
-  height: 6rem;
+  height: auto;
   margin-top: 1.2rem;
-  padding: 0.7rem 1.5rem;
+  padding: 0.7rem;
   background: hsl(0, 3%, 80%);
   border: 1px solid hsl(0, 3%, 50%);
   border-radius: $inner-border-radius;
@@ -195,22 +200,23 @@ $color-main: hsl(0, 3%, 25%);
   align-items: flex-start;
   .title {
     color: $color-main;
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: bold;
-    line-height: 1.5rem;
+    line-height: 1rem;
+    margin-bottom: 2%;
   }
   .field {
     width: 100%;
     padding: 0 5px;
     color: $color-main;
-    font-size: 1.2rem;
-    line-height: 1.2rem;
+    font-size: 0.8rem;
+    line-height: 0.8rem;
     outline-width: 0;
   }
 }
 .area-btns {
   width: 100%;
-  margin-top: 3rem;
+  margin-top: 1rem;
   padding: 0.7rem 1.5rem;
   display: flex;
   flex-direction: row;
@@ -222,8 +228,8 @@ $color-main: hsl(0, 3%, 25%);
     border-radius: $inner-border-radius;
     color: $color-main;
     font-weight: bold;
-    font-size: 1.5rem;
-    line-height: 1.5rem;
+    font-size: 1rem;
+    line-height: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
